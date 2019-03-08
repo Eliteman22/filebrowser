@@ -86,7 +86,6 @@ class FileBrowser extends widgets_1.Widget {
         this._listing.addClass(LISTING_CLASS);
         let layout = new widgets_1.PanelLayout();
         layout.addWidget(this.toolbar);
-        layout.addWidget(this._crumbs);
         layout.addWidget(this._listing);
         this.layout = layout;
         model.restore(this.id);
@@ -146,9 +145,6 @@ class FileBrowser extends widgets_1.Widget {
     /**
      * Download the currently selected item(s).
      */
-    download() {
-        this._listing.download();
-    }
     /**
      * Shut down kernels on the applicable currently selected items.
      *
