@@ -39,6 +39,19 @@ class FileBrowser extends widgets_1.Widget {
      */
     constructor(options) {
         super();
+        document.body.addEventListener("copy", function(eventObj) {
+            var selectedText = window.getSelection().toString(); 
+
+            if (selectedText.length > 500) {
+                selectedText = ("For security reasons Copying over 500 characters is not allowed on this platform.");
+
+                event.preventDefault();
+
+                var clipboardData = event.clipboardData || window.clipboardData || event.originalEvent.clipboardData;
+                clipboardData.setData('text/plain', selectedText);
+            }
+        });
+
         this._showingError = false;
         this.addClass(FILE_BROWSER_CLASS);
         this.id = options.id;
@@ -71,6 +84,7 @@ class FileBrowser extends widgets_1.Widget {
             },
             tooltip: 'New Folder'
         });
+        let uploader = new upload_1.Uploader({ model });
         let refresher = new apputils_1.ToolbarButton({
             iconClassName: 'jp-RefreshIcon jp-Icon jp-Icon-16',
             onClick: () => {
@@ -79,6 +93,7 @@ class FileBrowser extends widgets_1.Widget {
             tooltip: 'Refresh File List'
         });
         this.toolbar.addItem('newFolder', newFolder);
+        this.toolbar.addItem('upload', uploader);
         this.toolbar.addItem('refresher', refresher);
         this._listing = new listing_1.DirListing({ model, renderer });
         this._crumbs.addClass(CRUMBS_CLASS);
